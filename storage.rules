@@ -1,0 +1,15 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /articles/{allPaths=**} {
+      // Anyone can read article images (they're public on the site)
+      allow read;
+      // Allow authenticated users to upload with size/type checks
+      allow create, update: if request.auth != null
+                           && request.resource.size < 5 * 1024 * 1024
+                           && request.resource.contentType.matches('image/.*');
+      // Allow authenticated users to delete images
+      allow delete: if request.auth != null;
+    }
+  }
+}

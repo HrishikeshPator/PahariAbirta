@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pahari Abirta Admin Panel</title>
+  <meta property="og:site_name" content="Pahari Abirta">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Pahari Abirta",
+    "url": "https://www.pahariabirtanews.in/"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Pahari Abirta",
+    "url": "https://www.pahariabirtanews.in/",
+    "logo": "https://www.pahariabirtanews.in/logo.png"
+  }
+  </script>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Besley:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <script type="module" src="admin.js?v=2" defer></script>
+</head>
+
+<body>
+
+  <!-- AUTH SCREEN -->
+  <div id="authScreen" class="auth-screen">
+    <div class="auth-card">
+      <div class="auth-header">
+        <img src="logo.png" alt="Pahari Abirta" class="auth-logo-img">
+        <h2>Pahari Abirta Admin</h2>
+        <p id="authSubtitle">Sign in to manage content</p>
+      </div>
+
+      <div class="auth-alerts" id="authAlerts"></div>
+
+      <form id="loginForm" class="auth-form">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="loginEmail" required placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" required placeholder="Enter password">
+        </div>
+        <button type="submit" class="btn btn--primary btn--full" id="loginBtn">Sign In</button>
+        <p class="auth-toggle">
+          Don't have an account? <button type="button" class="btn-text" id="showSignupBtn">Sign Up as
+            Journalist</button>
+        </p>
+      </form>
+
+      <form id="signupForm" class="auth-form hidden">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="signupName" required placeholder="e.g. Ramesh Joshi">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="signupEmail" required placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="signupPassword" required placeholder="Create password (min 6 chars)" minlength="6">
+        </div>
+        <button type="submit" class="btn btn--primary btn--full" id="signupBtn">Sign Up</button>
+        <p class="auth-toggle">
+          Already have an account? <button type="button" class="btn-text" id="showLoginBtn">Sign In</button>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- PENDING APPROVAL SCREEN -->
+  <div id="pendingScreen" class="pending-screen hidden">
+    <div class="pending-card">
+      <div class="pending-icon">⏳</div>
+      <h2>Account Pending Approval</h2>
+      <p>Your journalist account has been created successfully. An admin must approve your account before you can start
+        managing content.</p>
+      <button class="btn btn--secondary" id="pendingLogoutBtn">Log Out</button>
+    </div>
+  </div>
+
+  <!-- MAIN ADMIN DASHBOARD -->
+  <div id="adminApp" class="admin-app hidden">
+    <!-- Mobile Menu Toggle -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+        width="24" height="24">
+        <path d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="adminSidebar">
+      <div class="sidebar__header">
+        <div class="sidebar__logo">
+          <img src="logo.png" alt="Pahari Abirta" class="sidebar__logo-img">
+        </div>
+      </div>
+
+      <div class="sidebar__user" id="currentUserDisplay">
+        <div class="sidebar__user-avatar" id="userAvatar">A</div>
+        <div class="sidebar__user-info">
+          <h4 id="userName">Admin User</h4>
+          <span class="badge badge--admin" id="userRoleBadge">Admin</span>
+        </div>
+      </div>
+
+      <nav class="sidebar__nav">
+        <button class="nav-btn active" data-tab="dashboard">Dashboard</button>
+        <button class="nav-btn" data-tab="articles">News Articles</button>
+        <button class="nav-btn" data-tab="categories">Categories</button>
+        <button class="nav-btn" data-tab="opinions">Opinions</button>
+        <button class="nav-btn" data-tab="ticker">Breaking News</button>
+        <button class="nav-btn" data-tab="analytics" id="navAnalyticsTab">Analytics Data</button>
+        <button class="nav-btn" data-tab="users" id="navUsersTab">Users / Role Mgmt</button>
+      </nav>
+
+      <div class="sidebar__bottom">
+        <a href="index.html" target="_blank" class="nav-btn nav-btn--secondary">View Live Site</a>
+        <button class="nav-btn nav-btn--danger" id="logoutBtn">Log Out</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+      <!-- DASHBOARD TAB -->
+      <section id="tab-dashboard" class="tab-content active">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Dashboard</h1>
+            <p class="page-subtitle">Welcome back to Pahari Abirta Admin</p>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3 class="stat-card__title">Total Articles</h3>
+            <div class="stat-card__value" id="statArticleCount">-</div>
+          </div>
+          <div class="stat-card">
+            <h3 class="stat-card__title">Pending Users</h3>
+            <div class="stat-card__value" id="statPendingUserCount">-</div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ARTICLES TAB -->
+      <section id="tab-articles" class="tab-content hidden">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">News Articles</h1>
+            <p class="page-subtitle">Manage, publish, and outline news stories</p>
+          </div>
+          <button class="btn btn--primary" id="newArticleBtn">+ New Article</button>
+        </div>
+
+        <div class="data-table-container">
+          <table class="data-table" id="articlesTable">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Author</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="6" class="table-empty">Loading articles...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- CATEGORIES TAB -->
+      <section id="tab-categories" class="tab-content hidden">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Categories</h1>
+            <p class="page-subtitle">Manage content categories and labels</p>
+          </div>
+          <button class="btn btn--primary" id="newCategoryBtn">+ New Category</button>
+        </div>
+
+        <div class="data-table-container">
+          <table class="data-table" id="categoriesTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Slug</th>
+                <th>Description</th>
+                <th>Order</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="5" class="table-empty">Loading categories...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- OPINIONS TAB -->
+      <section id="tab-opinions" class="tab-content hidden">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Opinions</h1>
+            <p class="page-subtitle">Manage and publish editorial opinion pieces</p>
+          </div>
+          <button class="btn btn--primary" id="newOpinionBtn">+ New Opinion</button>
+        </div>
+
+        <div class="data-table-container">
+          <table class="data-table" id="opinionsTable">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="5" class="table-empty">Loading opinions...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TICKER TAB -->
+      <section id="tab-ticker" class="tab-content hidden">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Breaking News</h1>
+            <p class="page-subtitle">Manage scrolling ticker alerts displayed on the site</p>
+          </div>
+          <button class="btn btn--primary" id="newTickerBtn">+ New Breaking Alert</button>
+        </div>
+
+        <div class="data-table-container">
+          <table class="data-table" id="tickerTable">
+            <thead>
+              <tr>
+                <th>Text</th>
+                <th>Status</th>
+                <th>Order</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="4" class="table-empty">Loading breaking news...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ANALYTICS TAB (Admin only) -->
+      <section id="tab-analytics" class="tab-content hidden">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Analytics</h1>
+            <p class="page-subtitle">Website traffic and article view metrics</p>
+          </div>
+        </div>
+
+        <div class="stats-grid" style="margin-bottom: 2rem;">
+          <div class="stat-card">
+            <h3 class="stat-card__title">Visits Today</h3>
+            <div class="stat-card__value" id="statVisitsToday">-</div>
+          </div>
+          <div class="stat-card">
+            <h3 class="stat-card__title">Visits This Month</h3>
+            <div class="stat-card__value" id="statVisitsMonth">-</div>
+          </div>
+          <div class="stat-card">
+            <h3 class="stat-card__title">Total All-Time Visits</h3>
+            <div class="stat-card__value" id="statVisitsTotal">-</div>
+          </div>
+        </div>
+
+        <div class="analytics-toolbar"
+          style="display: flex; gap: 1rem; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap;">
+          <h2 style="margin: 0; font-size: 1.25rem; font-family: var(--font-heading);">Article Views</h2>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <select id="analyticsTimeFilter" class="form-input" style="padding: 0.5rem; width: auto;">
+              <option value="total">All Time</option>
+              <option value="today">Today</option>
+              <option value="month">This Month</option>
+              <option value="custom_date">Custom Date</option>
+              <option value="custom_month">Custom Month</option>
+            </select>
+            <input type="date" id="analyticsDateInput" class="form-input hidden"
+              style="padding: 0.5rem; width: auto;" />
+            <input type="month" id="analyticsMonthInput" class="form-input hidden"
+              style="padding: 0.5rem; width: auto;" />
+          </div>
+        </div>
+
+        <div class="data-table-container">
+          <table class="data-table" id="analyticsTable">
+            <thead>
+              <tr>
+                <th>Article Title</th>
+                <th>Author</th>
+                <th>Published</th>
+                <th id="analyticsViewsHeader">Total Views</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="4" class="table-empty">Loading analytics...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- USERS TAB (Admin only) -->
+      <section id="tab-users" class="tab-content hidden">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">User Management</h1>
+            <p class="page-subtitle">Approve journalists and manage access</p>
+          </div>
+        </div>
+
+        <div class="data-table-container">
+          <table class="data-table" id="usersTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Joined</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="5" class="table-empty">Loading users...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODALS -->
+  <div id="modalOverlay" class="modal-overlay hidden">
+    <!-- Article Modal -->
+    <div id="articleModal" class="modal hidden">
+      <div class="modal__header">
+        <h3 id="articleModalTitle">New Article</h3>
+        <button class="modal__close btn-icon" aria-label="Close" onclick="closeModals()">&times;</button>
+      </div>
+      <div class="modal__body">
+        <form id="articleForm" class="crud-form">
+          <input type="hidden" id="articleId">
+
+          <div class="form-row">
+            <div class="form-group flex-2">
+              <label>Headline Title</label>
+              <input type="text" id="articleTitle" required>
+            </div>
+            <div class="form-group flex-1" id="articleCategoryGroup">
+              <label>Category</label>
+              <div style="display:flex; gap:0.5rem; align-items:center;">
+                <select id="articleCategory" required style="flex:1"></select>
+                <button type="button" class="btn btn--secondary" id="inlineCategoryBtn" title="Add New Category"
+                  style="padding:0.4rem 0.8rem;">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="inlineCategoryForm" class="hidden"
+            style="background:#F9FAFB; padding:1rem; border-radius:6px; border:1px solid var(--color-border); margin-bottom:1rem;">
+            <div class="form-row">
+              <div class="form-group flex-1" style="margin-bottom:0;">
+                <input type="text" id="inlineCatName" placeholder="New Category Name">
+              </div>
+              <button type="button" class="btn btn--primary" id="inlineCategorySave">Save</button>
+              <button type="button" class="btn btn--secondary" id="inlineCategoryCancel">Cancel</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Short Excerpt</label>
+            <textarea id="articleExcerpt" rows="2" maxlength="200" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Cover Image</label>
+            <input type="hidden" id="articleImage">
+            <div class="image-upload-zone" id="imageUploadZone">
+              <div class="image-upload-zone__placeholder" id="imageUploadPlaceholder">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <polyline points="21 15 16 10 5 21" />
+                </svg>
+                <span>Click or drag &amp; drop an image here</span>
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">JPG, PNG, WebP — auto-compressed
+                  before upload</span>
+              </div>
+              <div class="image-upload-zone__preview hidden" id="imagePreviewContainer">
+                <img id="imagePreview" alt="Preview">
+                <button type="button" class="image-upload-zone__remove" id="imageRemoveBtn"
+                  title="Remove image">&times;</button>
+              </div>
+              <input type="file" id="imageFileInput" accept="image/*" style="display:none;">
+            </div>
+            <div class="image-upload-progress hidden" id="imageUploadProgress">
+              <div class="image-upload-progress__bar">
+                <div class="image-upload-progress__fill" id="imageUploadProgressFill"></div>
+              </div>
+              <span class="image-upload-progress__text" id="imageUploadProgressText">0%</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Article Content (HTML)</label>
+            <textarea id="articleBody" rows="8" placeholder="<p>Story paragraph...</p>" required></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Read Time</label>
+              <input type="text" id="articleReadTime" placeholder="e.g. 5 min read" required>
+            </div>
+            <div class="form-group flex-1">
+              <label>Status</label>
+              <select id="articleStatus">
+                <option value="draft">Draft</option>
+                <option value="published">Published</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row" id="articleFlagsGroup" style="margin-bottom: 1.25rem;">
+            <label style="display:flex; align-items:center; gap:0.5rem; font-weight:normal; cursor:pointer;">
+              <input type="checkbox" id="articleIsFeatured" style="width:auto; margin:0;"> Feature on Hero
+            </label>
+            <label style="display:flex; align-items:center; gap:0.5rem; font-weight:normal; cursor:pointer;">
+              <input type="checkbox" id="articleIsTrending" style="width:auto; margin:0;"> Mark as Trending
+            </label>
+            <input type="hidden" id="articleIsOpinion">
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--secondary" onclick="closeModals()">Cancel</button>
+            <button type="submit" class="btn btn--primary" id="articleSaveBtn">Save Article</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Category Modal -->
+    <div id="categoryModal" class="modal hidden">
+      <div class="modal__header">
+        <h3 id="categoryModalTitle">New Category</h3>
+        <button class="modal__close btn-icon" aria-label="Close" onclick="closeModals()">&times;</button>
+      </div>
+      <div class="modal__body">
+        <form id="categoryForm" class="crud-form">
+          <input type="hidden" id="categoryId">
+
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" id="catName" required>
+          </div>
+          <div class="form-group">
+            <label>Slug (URL identifier)</label>
+            <input type="text" id="catSlug" placeholder="e.g. politics" required>
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="catDesc" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Order</label>
+            <input type="number" id="catOrder" value="0" required>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--secondary" onclick="closeModals()">Cancel</button>
+            <button type="submit" class="btn btn--primary" id="categorySaveBtn">Save Category</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Ticker Modal -->
+    <div id="tickerModal" class="modal hidden">
+      <div class="modal__header">
+        <h3 id="tickerModalTitle">New Breaking Alert</h3>
+        <button class="modal__close btn-icon" aria-label="Close" onclick="closeModals()">&times;</button>
+      </div>
+      <div class="modal__body">
+        <form id="tickerForm" class="crud-form">
+          <input type="hidden" id="tickerId">
+
+          <div class="form-group">
+            <label>Alert Text</label>
+            <input type="text" id="tickerText" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Status</label>
+              <select id="tickerActive">
+                <option value="true">Active (Visible)</option>
+                <option value="false">Inactive (Hidden)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Order</label>
+              <input type="number" id="tickerOrder" value="0" required>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--secondary" onclick="closeModals()">Cancel</button>
+            <button type="submit" class="btn btn--primary" id="tickerSaveBtn">Save Alert</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast hidden">Message</div>
+
+</body>
+
+</html>

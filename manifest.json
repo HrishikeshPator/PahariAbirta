@@ -1,0 +1,21 @@
+{
+  "name": "Pahari Abirta",
+  "short_name": "Pahari Abirta",
+  "description": "Your trusted source for politics, culture, technology, and local news from the hill regions.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0F3D2E",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

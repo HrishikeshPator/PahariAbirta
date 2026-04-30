@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse news by category on Pahari Abirta — Politics, Culture, Technology, Local, Society, and more.">
+  <title>Category — Pahari Abirta</title>
+  <meta property="og:site_name" content="Pahari Abirta">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="logo.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Pahari Abirta",
+    "url": "https://www.pahariabirtanews.in/"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Pahari Abirta",
+    "url": "https://www.pahariabirtanews.in/",
+    "logo": "https://www.pahariabirtanews.in/logo.png"
+  }
+  </script>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══════════ HEADER ═══════════ -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="index.html" class="header__logo">
+        <img src="logo.png" alt="Pahari Abirta" class="header__logo-img">
+      </a>
+      <nav class="header__nav" aria-label="Main navigation">
+        <ul class="header__nav-list">
+          <!-- Injected via JS -->
+        </ul>
+      </nav>
+      <div class="header__actions">
+        <button class="header__download-btn" id="installAppBtn" aria-label="Install app" title="Install App" style="display: none; color: var(--color-white); background: var(--color-primary); padding: 8px 12px; border-radius: var(--radius-sm); transition: all var(--transition-fast); align-items: center; justify-content: center; gap: 6px; font-weight: 600; font-size: var(--fs-small);">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          <span class="install-text">App</span>
+        </button>
+        <button class="header__search-btn" id="searchOpen" aria-label="Open search">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+        <button class="header__menu-btn" id="menuOpen" aria-label="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Nav -->
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+    <button class="mobile-nav__close" id="menuClose" aria-label="Close menu">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M6 18 18 6M6 6l12 12"/></svg>
+    </button>
+    <ul class="mobile-nav__list">
+      <!-- Injected via JS -->
+    </ul>
+  </nav>
+  <div class="mobile-nav__backdrop" id="navBackdrop"></div>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-overlay__inner">
+      <form action="search.html" method="GET">
+        <input type="search" name="q" class="search-overlay__input" placeholder="Search stories..." autocomplete="off">
+      </form>
+    </div>
+    <button class="search-overlay__close" id="searchClose" aria-label="Close search">
+    </button>
+  </div>
+
+  <!-- ═══════════ PAGE HERO ═══════════ -->
+  <section class="page-hero">
+    <div class="container">
+      <h1 class="page-hero__title" id="categoryTitle">All Categories</h1>
+      <p class="page-hero__subtitle" id="categorySubtitle">Browse the latest stories across all our coverage areas</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ CATEGORY CONTENT ═══════════ -->
+  <section class="section">
+    <div class="container">
+      <!-- Category Tabs -->
+      <div class="category-tabs shimmer-wrapper" id="categoryTabs" style="gap:10px;">
+        <div class="shimmer-block" style="width: 60px; height: 38px; border-radius: 4px;"></div>
+        <div class="shimmer-block" style="width: 80px; height: 38px; border-radius: 4px;"></div>
+        <div class="shimmer-block" style="width: 90px; height: 38px; border-radius: 4px;"></div>
+        <div class="shimmer-block" style="width: 70px; height: 38px; border-radius: 4px;"></div>
+        <div class="shimmer-block" style="width: 85px; height: 38px; border-radius: 4px;"></div>
+      </div>
+
+      <div class="category-page-grid">
+        <!-- Main Content - Articles -->
+        <div class="category-page-grid__main" id="categoryArticles">
+          <!-- JS populates this -->
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="category-page-grid__sidebar">
+          <div class="sidebar-widget">
+            <h3 class="sidebar-widget__title">Trending</h3>
+            <div class="category-sidebar" id="categorySidebarTrending">
+              <!-- JS populates -->
+            </div>
+          </div>
+
+        </aside>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <div class="footer__brand-name">Pahari <span>Abirta</span></div>
+          <p class="footer__brand-text">Independent, trustworthy journalism from the heart of India's hill regions.</p>
+          <div class="footer__social">
+            <a href="https://www.facebook.com/profile.php?id=100064361251766" class="footer__social-link" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+            <a href="mailto:contact@pahariabirta.com" class="footer__social-link" aria-label="Email">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" />
+                <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
+              </svg></a>
+
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer__heading">Company</h4>
+          <ul class="footer__list">
+            <li><a href="about.html" class="footer__link">About Us</a></li>
+            <li><a href="#" class="footer__link">Our Team</a></li>
+            <li><a href="advertise.html" class="footer__link">Advertise</a></li>
+
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__heading">Legal</h4>
+          <ul class="footer__list">
+            <li><a href="privacy.html" class="footer__link">Privacy Policy</a></li>
+            <li><a href="terms.html" class="footer__link">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 Pahari Abirta. All rights reserved.</span>
+
+      </div>
+    </div>
+  </footer>
+
+
+  <script type="module" src="script.js?v=2"></script>
+</body>
+</html>
