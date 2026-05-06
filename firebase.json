@@ -26,10 +26,20 @@
         ]
       }
     ],
+    "rewrites": [
+      {
+        "source": "/article",
+        "function": {
+          "functionId": "articleMeta",
+          "region": "us-central1"
+        }
+      }
+    ],
     "ignore": [
       "firebase.json",
       "database.rules.json",
       "storage.rules",
+      "article.html",
       "functions/**",
       "**/.*",
       "**/node_modules/**"

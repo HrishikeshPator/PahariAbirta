@@ -71,19 +71,19 @@ function updateHeaderNavCategories() {
 
   if (headerNav) {
     headerNav.innerHTML = `
-      <li><a href="index.html#latest" class="header__nav-link">Latest News</a></li>
-      <li><a href="index.html#featured" class="header__nav-link">Featured Stories</a></li>
-      <li><a href="index.html#trending" class="header__nav-link">Trending Now</a></li>
-      <li><a href="index.html#opinion" class="header__nav-link">Opinion</a></li>
+      <li><a href="/#latest" class="header__nav-link">Latest News</a></li>
+      <li><a href="/#featured" class="header__nav-link">Featured Stories</a></li>
+      <li><a href="/#trending" class="header__nav-link">Trending Now</a></li>
+      <li><a href="/#opinion" class="header__nav-link">Opinion</a></li>
     `;
   }
 
   if (mobileNav) {
     mobileNav.innerHTML = `
-      <li><a href="index.html#latest" class="mobile-nav__link">Latest News</a></li>
-      <li><a href="index.html#featured" class="mobile-nav__link">Featured Stories</a></li>
-      <li><a href="index.html#trending" class="mobile-nav__link">Trending Now</a></li>
-      <li><a href="index.html#opinion" class="mobile-nav__link">Opinion</a></li>
+      <li><a href="/#latest" class="mobile-nav__link">Latest News</a></li>
+      <li><a href="/#featured" class="mobile-nav__link">Featured Stories</a></li>
+      <li><a href="/#trending" class="mobile-nav__link">Trending Now</a></li>
+      <li><a href="/#opinion" class="mobile-nav__link">Opinion</a></li>
     `;
   }
 }
@@ -831,12 +831,12 @@ function initHome() {
         <div class="container hero__grid">
           <div class="hero-left">
             <article class="card card--featured fade-in fade-in--visible">
-              <a href="article.html?id=${featured.id}" class="card__image">
+              <a href="/article?id=${featured.id}" class="card__image">
                 <img src="${featured.image}" alt="${escapeHtml(featured.title)}">
                 <span class="badge" style="position: absolute; top: 1rem; left: 1rem; background: var(--color-accent); color: #fff;">LATEST</span>
               </a>
               <div class="card__body">
-                <a href="article.html?id=${featured.id}"><h2 class="card__title">${escapeHtml(featured.title)}</h2></a>
+                <a href="/article?id=${featured.id}"><h2 class="card__title">${escapeHtml(featured.title)}</h2></a>
                 <p class="card__excerpt">${escapeHtml(featured.excerpt)}</p>
                 <div class="meta">
                   <span>${escapeHtml(featured.author)}</span>
@@ -854,7 +854,7 @@ function initHome() {
                 <article class="card card--compact fade-in fade-in--visible">
                   <div class="card__body">
                     <span class="tag tag--${article.category}" style="margin-bottom:0.5rem;">${CATEGORY_LABELS[article.category] || article.category}</span>
-                    <a href="article.html?id=${article.id}"><h3 class="card__title">${escapeHtml(article.title)}</h3></a>
+                    <a href="/article?id=${article.id}"><h3 class="card__title">${escapeHtml(article.title)}</h3></a>
                     <div class="meta">
                       <time>${getTimeAgo(article.createdAt)}</time>
                     </div>
@@ -872,12 +872,12 @@ function initHome() {
       const latestItems = news.slice(1, 7); // Show 6 items in the grid
       latestList.innerHTML = latestItems.map(article => `
         <article class="card card--shadow fade-in fade-in--visible">
-          <a href="article.html?id=${article.id}" class="card__image">
+          <a href="/article?id=${article.id}" class="card__image">
             <img src="${article.image}" alt="${escapeHtml(article.title)}" loading="lazy">
             <span class="tag tag--${article.category} card__tag">${CATEGORY_LABELS[article.category] || article.category}</span>
           </a>
           <div class="card__body">
-            <a href="article.html?id=${article.id}"><h3 class="card__title">${escapeHtml(article.title)}</h3></a>
+            <a href="/article?id=${article.id}"><h3 class="card__title">${escapeHtml(article.title)}</h3></a>
             <p class="card__excerpt">${escapeHtml(article.excerpt)}</p>
             <div class="meta card__meta">
               <span>${escapeHtml(article.author)}</span>
@@ -900,12 +900,12 @@ function initHome() {
       featuredList.innerHTML = `
         <div class="featured-grid__main fade-in fade-in--visible">
           <article class="card card--featured">
-            <a href="article.html?id=${main.id}" class="card__image">
+            <a href="/article?id=${main.id}" class="card__image">
               <img src="${main.image}" alt="${escapeHtml(main.title)}">
               <span class="tag tag--${main.category} card__tag">${CATEGORY_LABELS[main.category] || main.category}</span>
             </a>
             <div class="card__body">
-              <a href="article.html?id=${main.id}"><h3 class="card__title">${escapeHtml(main.title)}</h3></a>
+              <a href="/article?id=${main.id}"><h3 class="card__title">${escapeHtml(main.title)}</h3></a>
               <p class="card__excerpt">${escapeHtml(main.excerpt)}</p>
               <div class="meta">
                 <span>${escapeHtml(main.author)}</span>
@@ -918,12 +918,12 @@ function initHome() {
         <div class="featured-grid__side">
           ${side.map(article => `
             <article class="card card--shadow fade-in fade-in--visible">
-              <a href="article.html?id=${article.id}" class="card__image" style="min-height:120px;">
+              <a href="/article?id=${article.id}" class="card__image" style="min-height:120px;">
                 <img src="${article.image}" alt="${escapeHtml(article.title)}" loading="lazy">
                 <span class="tag tag--${article.category} card__tag">${CATEGORY_LABELS[article.category] || article.category}</span>
               </a>
               <div class="card__body">
-                <a href="article.html?id=${article.id}"><h4 class="card__title" style="font-size:0.95rem;">${escapeHtml(article.title)}</h4></a>
+                <a href="/article?id=${article.id}"><h4 class="card__title" style="font-size:0.95rem;">${escapeHtml(article.title)}</h4></a>
               </div>
             </article>
           `).join('')}
@@ -940,7 +940,7 @@ function initHome() {
         <div class="trending-item__number">${idx + 1}</div>
         <div class="trending-item__content">
           <span class="tag tag--${article.category}" style="font-size:0.7rem; margin-bottom:0.25rem;">${CATEGORY_LABELS[article.category] || article.category}</span>
-          <a href="article.html?id=${article.id}"><h3 class="trending-item__title">${escapeHtml(article.title)}</h3></a>
+          <a href="/article?id=${article.id}"><h3 class="trending-item__title">${escapeHtml(article.title)}</h3></a>
           <div class="meta"><time style="font-size:0.7rem;">${getTimeAgo(article.createdAt)}</time></div>
         </div>
       </div>
@@ -953,7 +953,7 @@ function initHome() {
       const initials = article.author.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
       return `
         <article class="opinion-card fade-in fade-in--visible">
-          <a href="article.html?id=${article.id}"><h3 class="opinion-card__title">${escapeHtml(article.title)}</h3></a>
+          <a href="/article?id=${article.id}"><h3 class="opinion-card__title">${escapeHtml(article.title)}</h3></a>
           <div class="opinion-card__author">
             <div class="opinion-card__avatar">${initials}</div>
             <div class="opinion-card__author-info">

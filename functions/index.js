@@ -1,10 +1,119 @@
 const { onValueCreated } = require('firebase-functions/v2/database');
+const { onRequest } = require('firebase-functions/v2/https');
 const { initializeApp } = require('firebase-admin/app');
 const { getDatabase } = require('firebase-admin/database');
 const { getMessaging } = require('firebase-admin/messaging');
+const fs = require('fs');
+const path = require('path');
 
 initializeApp();
 
+// ─── ARTICLE META (OG TAGS FOR SOCIAL SHARING) ─────────────
+// This function intercepts requests to /article and injects
+// Open Graph meta tags so Facebook, WhatsApp, Telegram etc.
+// show a rich preview with image, title, and description.
+
+// Cache the article.html template in memory (read once per cold start)
+let cachedTemplate = null;
+
+function getTemplate() {
+  if (cachedTemplate) return cachedTemplate;
+  // The article.html is bundled alongside the function via the predeploy copy
+  const templatePath = path.join(__dirname, 'article.html');
+  if (fs.existsSync(templatePath)) {
+    cachedTemplate = fs.readFileSync(templatePath, 'utf8');
+    return cachedTemplate;
+  }
+  return null;
+}
+
+exports.articleMeta = onRequest(
+  { region: 'us-central1' },
+  async (req, res) => {
+    const articleId = req.query.id;
+
+    // Read the template
+    let html = getTemplate();
+
+    if (!articleId || !html) {
+      if (html) {
+        res.status(200).send(html);
+      } else {
+        res.status(404).send('Not found');
+      }
+      return;
+    }
+
+    try {
+      const db = getDatabase();
+      const snapshot = await db.ref(`articles/${articleId}`).once('value');
+
+      if (!snapshot.exists()) {
+        res.status(200).send(html);
+        return;
+      }
+
+      const article = snapshot.val();
+      const title = escapeHtml(article.title || 'Pahari Abirta');
+      const description = escapeHtml(article.excerpt || 'Read the latest news from Pahari Abirta.');
+      const imageUrl = article.image || 'https://www.pahariabirtanews.in/logo.png';
+      const articleUrl = `https://www.pahariabirtanews.in/article?id=${articleId}`;
+
+      // Build the OG meta tags to inject
+      const ogTags = `
+    <meta property="og:title" content="${title}">
+    <meta property="og:description" content="${description}">
+    <meta property="og:image" content="${imageUrl}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="${articleUrl}">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Pahari Abirta">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="${title}">
+    <meta name="twitter:description" content="${description}">
+    <meta name="twitter:image" content="${imageUrl}">
+    <meta name="description" content="${description}">`;
+
+      // Replace existing static meta tags with dynamic ones
+      // Remove old og:type and og:site_name (they'll be in our new block)
+      html = html.replace(/<meta property="og:type"[^>]*>\s*/g, '');
+      html = html.replace(/<meta property="og:site_name"[^>]*>\s*/g, '');
+      html = html.replace(/<meta name="description"[^>]*>\s*/g, '');
+
+      // Update the <title> tag
+      html = html.replace(
+        /<title>.*?<\/title>/,
+        `<title>${title} — Pahari Abirta</title>`
+      );
+
+      // Inject OG tags right after the viewport meta tag
+      html = html.replace(
+        /(<meta name="viewport"[^>]*>)/,
+        `$1${ogTags}`
+      );
+
+      res.set('Cache-Control', 'public, max-age=300, s-maxage=600');
+      res.status(200).send(html);
+    } catch (error) {
+      console.error('articleMeta error:', error);
+      res.status(200).send(html);
+    }
+  }
+);
+
+// Helper: escape HTML for safe meta tag injection
+function escapeHtml(str) {
+  if (!str) return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/'/g, '&#39;');
+}
+
+// ─── PUSH NOTIFICATION ON NEW ARTICLE ───────────────────────
 exports.notifyNewArticle = onValueCreated(
   {
     ref: '/articles/{articleId}',
@@ -64,8 +173,8 @@ exports.notifyNewArticle = onValueCreated(
         notification: {
           title: title,
           body: excerpt,
-          icon: 'https://pahariabirta.web.app/logo.png',
-          badge: 'https://pahariabirta.web.app/logo.png',
+          icon: 'https://pahariabirta.web.app/favicon-192.png',
+          badge: 'https://pahariabirta.web.app/favicon-192.png',
           image: imageUrl || undefined,
           requireInteraction: 'true'
         },

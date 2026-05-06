@@ -15,8 +15,8 @@
   <meta property="og:type" content="website">
   <title>Pahari Abirta — Trusted News from the Hills</title>
   <meta property="og:site_name" content="Pahari Abirta">
-  <link rel="icon" type="image/png" href="logo.png">
-  <link rel="apple-touch-icon" href="logo.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+  <link rel="apple-touch-icon" href="favicon-192.png">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -43,7 +43,7 @@
   <!-- ═══════════ HEADER ═══════════ -->
   <header class="header" id="header">
     <div class="container header__inner">
-      <a href="index.html" class="header__logo">
+      <a href="/" class="header__logo">
         <img src="logo.png" alt="Pahari Abirta" class="header__logo-img">
       </a>
       <nav class="header__nav" aria-label="Main navigation">
@@ -94,7 +94,7 @@
   <!-- Search Overlay -->
   <div class="search-overlay" id="searchOverlay">
     <div class="search-overlay__inner">
-      <form action="search.html" method="GET">
+      <form action="/search" method="GET">
         <input type="search" name="q" class="search-overlay__input" placeholder="Search stories..." autocomplete="off">
       </form>
     </div>
@@ -132,7 +132,7 @@
     <div class="container">
       <div class="section__header fade-in">
         <h2 class="section__title">Latest News</h2>
-        <a href="category.html" class="section__link">View All →</a>
+        <a href="/category" class="section__link">View All →</a>
       </div>
       <div class="news-grid" id="latestList">
         <!-- SHIMMER PLACEHOLDERS -->
@@ -188,7 +188,7 @@
     <div class="container">
       <div class="section__header fade-in">
         <h2 class="section__title">Featured Stories</h2>
-        <a href="category.html" class="section__link">Explore →</a>
+        <a href="/category" class="section__link">Explore →</a>
       </div>
       <div class="featured-grid" id="featuredList">
         <div class="featured-grid__main shimmer-wrapper">
@@ -248,7 +248,7 @@
     <div class="container">
       <div class="section__header fade-in">
         <h2 class="section__title">Opinion</h2>
-        <a href="category.html?cat=opinion" class="section__link">All Opinions →</a>
+        <a href="/category?cat=opinion" class="section__link">All Opinions →</a>
       </div>
       <div class="opinion-grid" id="opinionList">
         <article class="opinion-card shimmer-wrapper" style="height:150px;">
@@ -293,17 +293,17 @@
         <div>
           <h4 class="footer__heading">Company</h4>
           <ul class="footer__list">
-            <li><a href="about.html" class="footer__link">About Us</a></li>
+            <li><a href="/about" class="footer__link">About Us</a></li>
             <li><a href="#" class="footer__link">Our Team</a></li>
 
-            <li><a href="advertise.html" class="footer__link">Advertise</a></li>
+            <li><a href="/advertise" class="footer__link">Advertise</a></li>
           </ul>
         </div>
         <div>
           <h4 class="footer__heading">Legal</h4>
           <ul class="footer__list">
-            <li><a href="privacy.html" class="footer__link">Privacy Policy</a></li>
-            <li><a href="terms.html" class="footer__link">Terms of Service</a></li>
+            <li><a href="/privacy" class="footer__link">Privacy Policy</a></li>
+            <li><a href="/terms" class="footer__link">Terms of Service</a></li>
           </ul>
         </div>
       </div>

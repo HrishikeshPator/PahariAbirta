@@ -23,8 +23,8 @@ let ARTICLES = [];
 let CATEGORY_LABELS = {};
 let CATEGORY_DESCRIPTIONS = {};
 let FIREBASE_READY = false;
-let articlePath = "article.html";
-let catPath = "category.html";
+let articlePath = "/article";
+let catPath = "/category";
 
 // ─── INITIAL DATA FETCH ──────────────────────────────────────
 async function fetchFirebaseData() {
@@ -1018,7 +1018,7 @@ function initCategoryTabs() {
       const activeCat = params.get("cat") || "all";
 
       const catPath =
-        window.location.pathname.includes(".html") ||
+        false ||
         window.location.protocol === "file:"
           ? "category.html"
           : "category";
@@ -1530,7 +1530,7 @@ function initCategoriesUI() {
 
   const renderNavItems = (isMobile) => {
     let html = isMobile
-      ? `<li><a href="index.html" class="mobile-nav__link">Home</a></li>`
+      ? `<li><a href="/" class="mobile-nav__link">Home</a></li>`
       : "";
     html += catSlugs
       .map(
@@ -1540,25 +1540,25 @@ function initCategoriesUI() {
       )
       .join("");
     if (isMobile)
-      html += `<li><a href="search.html" class="mobile-nav__link">Search</a></li>`;
+      html += `<li><a href="/search" class="mobile-nav__link">Search</a></li>`;
     return html;
   };
 
   if (headerNav) {
     headerNav.innerHTML = `
-      <li><a href="index.html#latest" class="header__nav-link">Latest News</a></li>
-      <li><a href="index.html#featured" class="header__nav-link">Featured Stories</a></li>
-      <li><a href="index.html#trending" class="header__nav-link">Trending Now</a></li>
-      <li><a href="index.html#opinion" class="header__nav-link">Opinion</a></li>
+      <li><a href="/#latest" class="header__nav-link">Latest News</a></li>
+      <li><a href="/#featured" class="header__nav-link">Featured Stories</a></li>
+      <li><a href="/#trending" class="header__nav-link">Trending Now</a></li>
+      <li><a href="/#opinion" class="header__nav-link">Opinion</a></li>
     `;
   }
 
   if (mobileNav) {
     mobileNav.innerHTML = `
-      <li><a href="index.html#latest" class="mobile-nav__link">Latest News</a></li>
-      <li><a href="index.html#featured" class="mobile-nav__link">Featured Stories</a></li>
-      <li><a href="index.html#trending" class="mobile-nav__link">Trending Now</a></li>
-      <li><a href="index.html#opinion" class="mobile-nav__link">Opinion</a></li>
+      <li><a href="/#latest" class="mobile-nav__link">Latest News</a></li>
+      <li><a href="/#featured" class="mobile-nav__link">Featured Stories</a></li>
+      <li><a href="/#trending" class="mobile-nav__link">Trending Now</a></li>
+      <li><a href="/#opinion" class="mobile-nav__link">Opinion</a></li>
     `;
   }
 
@@ -1567,7 +1567,7 @@ function initCategoriesUI() {
       window.location.pathname.endsWith("index.html") ||
       window.location.pathname === "/" ||
       window.location.pathname.endsWith("pahariabirta/");
-    let pillsHtml = `<a href="index.html" class="mobile-pills__item ${isHome ? "mobile-pills__item--active" : ""}">Top Stories</a>`;
+    let pillsHtml = `<a href="/" class="mobile-pills__item ${isHome ? "mobile-pills__item--active" : ""}">Top Stories</a>`;
 
     // check URL for active pillar
     const params = new URLSearchParams(window.location.search);
