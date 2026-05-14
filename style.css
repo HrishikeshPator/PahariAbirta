@@ -2992,3 +2992,96 @@ textarea:focus {
   .notif-banner { bottom: 1rem; border-radius: 12px; padding: 1rem; }
   .notif-toast { top: 5rem; right: 1rem; }
 }
+
+/* ============================================================
+   TRANSLATE TOGGLE BUTTON
+   ============================================================ */
+.header__translate-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--color-secondary);
+  font-weight: 600;
+  font-size: var(--fs-small);
+  transition: all var(--transition-fast);
+  border: 1.5px solid var(--color-border);
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+}
+
+.header__translate-btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.translate-btn__label {
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+}
+
+.header__translate-btn:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  background: rgba(15, 61, 46, 0.05);
+}
+
+.header__translate-btn--active {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
+
+.header__translate-btn--active:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary-light);
+  color: var(--color-white);
+}
+
+/* Hide Google Translate default bar and branding */
+.skiptranslate,
+.goog-te-banner-frame,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Fix body position when Google Translate adds top offset */
+.translated-ltr,
+.translated-rtl {
+  margin-top: 0 !important;
+}
+
+/* Mobile: make the translate button smaller */
+@media (max-width: 768px) {
+  .header__translate-btn {
+    padding: 5px 8px;
+    gap: 3px;
+  }
+
+  .header__translate-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .translate-btn__label {
+    font-size: 0.7rem;
+  }
+}
