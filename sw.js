@@ -47,7 +47,7 @@ self.addEventListener('notificationclick', (e) => {
 });
 
 // ─── CACHE & INSTALL (PWA) ──────────────────────────────────
-const CACHE_NAME = 'pahari-abirta-v6';
+const CACHE_NAME = 'pahari-abirta-v7';
 const ASSETS = ['/', '/style.css', '/script.js', '/favicon-192.png', '/sw-env.js', '/firebase-env.js', '/firebase-config.js'];
 
 self.addEventListener('install', (e) => {

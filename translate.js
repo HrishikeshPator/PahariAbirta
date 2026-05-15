@@ -122,15 +122,28 @@
   }
 
   function clearTranslateCookies() {
-    var domain = window.location.hostname;
-    // Clear for current path
-    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    // Clear for domain
-    if (domain !== 'localhost') {
-      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.' + domain;
-      // Also try without the leading dot
-      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + domain;
+    const domainParts = window.location.hostname.split('.');
+    const paths = ['/', window.location.pathname, ''];
+    
+    let domains = [window.location.hostname, '.' + window.location.hostname, ''];
+    if (domainParts.length > 2) {
+       let parentDomain = domainParts.slice(1).join('.');
+       domains.push(parentDomain);
+       domains.push('.' + parentDomain);
     }
+    if (domainParts.length > 1) {
+       let rootDomain = domainParts.slice(-2).join('.');
+       domains.push(rootDomain);
+       domains.push('.' + rootDomain);
+    }
+
+    paths.forEach(p => {
+      domains.forEach(d => {
+        let cookieString = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=' + p;
+        if (d) cookieString += '; domain=' + d;
+        document.cookie = cookieString;
+      });
+    });
   }
 
   // ─── BUTTON STATE ──────────────────────────────────────────
@@ -180,9 +193,6 @@
       if (!sessionStorage.getItem('pa_clearing_translate')) {
         sessionStorage.setItem('pa_clearing_translate', '1');
         clearTranslateCookies();
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.' + window.location.hostname;
         window.location.reload();
         return;
       } else {
