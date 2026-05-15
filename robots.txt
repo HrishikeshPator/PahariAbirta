@@ -1,0 +1,29 @@
+# Pahari Abirta — robots.txt
+User-agent: *
+Allow: /
+
+# Static pages
+Allow: /about
+Allow: /privacy
+Allow: /terms
+Allow: /advertise
+Allow: /category
+Allow: /article
+Allow: /search
+
+# Block admin panel from indexing
+Disallow: /admin
+Disallow: /admin.html
+
+# Block utility/config files
+Disallow: /firebase-config.js
+Disallow: /firebase-env.js
+Disallow: /sw-env.js
+Disallow: /admin.js
+Disallow: /admin.css
+Disallow: /database.rules.json
+Disallow: /storage.rules
+Disallow: /manifest.json
+
+# Sitemap location
+Sitemap: https://www.pahariabirtanews.in/sitemap.xml
