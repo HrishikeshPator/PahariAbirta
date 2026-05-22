@@ -62,7 +62,6 @@
       "database.rules.json",
       "storage.rules",
       "article.html",
-      "admin.html",
       "functions/**",
       "**/.*",
       "**/node_modules/**"
