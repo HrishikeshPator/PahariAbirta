@@ -61,6 +61,7 @@ exports.articleMeta = onRequest(
 
       // Build the OG meta tags to inject
       const ogTags = `
+    <link rel="canonical" href="${articleUrl}">
     <meta property="og:title" content="${title}">
     <meta property="og:description" content="${description}">
     <meta property="og:image" content="${imageUrl}">
@@ -69,6 +70,7 @@ exports.articleMeta = onRequest(
     <meta property="og:url" content="${articleUrl}">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="Pahari Abirta">
+    <meta property="og:locale" content="as_IN">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="${title}">
     <meta name="twitter:description" content="${description}">
@@ -76,10 +78,14 @@ exports.articleMeta = onRequest(
     <meta name="description" content="${description}">`;
 
       // Replace existing static meta tags with dynamic ones
-      // Remove old og:type and og:site_name (they'll be in our new block)
+      // Remove old tags that will be in our new injected block
       html = html.replace(/<meta property="og:type"[^>]*>\s*/g, '');
       html = html.replace(/<meta property="og:site_name"[^>]*>\s*/g, '');
+      html = html.replace(/<meta property="og:image"[^>]*>\s*/g, '');
+      html = html.replace(/<meta property="og:locale"[^>]*>\s*/g, '');
+      html = html.replace(/<meta name="twitter:card"[^>]*>\s*/g, '');
       html = html.replace(/<meta name="description"[^>]*>\s*/g, '');
+      html = html.replace(/<link rel="canonical"[^>]*>\s*/g, '');
 
       // Update the <title> tag
       html = html.replace(
